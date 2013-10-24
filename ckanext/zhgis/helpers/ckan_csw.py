@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*- 
+
 import traceback
 from owslib.csw import CatalogueServiceWeb
 from lxml import etree
@@ -19,6 +21,7 @@ namespaces = {
     'ows': 'http://www.opengis.net/ows',
     'rim': 'urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0',
     'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+    'srv': 'http://www.isotc211.org/2005/srv',
     'xs' : 'http://www.w3.org/2001/XMLSchema',
     'xs2': 'http://www.w3.org/XML/Schema',
     'xsi': 'http://www.w3.org/2001/XMLSchema-instance'
@@ -104,12 +107,20 @@ class MultiAttribute(Attribute):
         return value.strip(separator)
 
 class ArrayAttribute(Attribute):
+    def _isstr(s):
+        try:
+            return isinstance(s, basestring)
+        except NameError:
+            return isinstance(s, str)
+
     def get_value(self, **kwargs):
         self.env.update(kwargs)
         value = []
         for attribute in self._config:
             new_value = attribute.get_value(**kwargs)
             try:
+                if self._isstr(new_value):
+                    raise TypeError
                 iterator = iter(new_value)
                 for inner_attribute in iterator:
                     # it should be possible to call inner_attribute.get_value and the right thing(tm) happens'
@@ -142,6 +153,8 @@ class CkanMetadata(object):
             'maintainer_email',
             'license_url',
             'version',
+            'service_url',
+            'service_type',
             'notes',
             'tags',
             'metadata_url',
@@ -168,7 +181,7 @@ class CkanMetadata(object):
         """
         return self.get_by_search(dataset_name, 'title').itervalues().next().identifier
 
-    def get_attribute(self, dataset_name, ckan_attribute):
+    def get_attribute(self, ckan_attribute, dataset_name=None):
         """ Abstract method to define the mapping of a ckan attribute to a csw attribute """
         raise NotImplementedError
 
@@ -178,82 +191,65 @@ class CkanMetadata(object):
             raise DatasetNotFoundError("Dataset with id %s not found" % id)
         return dataset_xml_string
 
-    def get_ckan_metadata(self, dataset_name, language='de'):
-        """ Returns the requested dataset mapped to CKAN attributes """
-        id = self.get_id_by_dataset_name(dataset_name)
+    def get_ckan_metadata_by_id(self, id, language='de'):
         log.debug("Dataset ID: %s" % id)
 
         dataset_xml = etree.fromstring(self.get_xml(id))
         for key in self.metadata:
             log.debug("Metadata key: %s" % key)
-            attribute = self.get_attribute(dataset_name, key)
+            attribute = self.get_attribute(key)
             self.metadata[key] = attribute.get_value(xml=dataset_xml, lang=language)
         return self.metadata
 
 
-class SwisstopoCkanMetadata(CkanMetadata):
-    """ Provides access to the csw service of swisstopo """
+    def get_ckan_metadata(self, dataset_name, language='de'):
+        """ Returns the requested dataset mapped to CKAN attributes """
+        id = self.get_id_by_dataset_name(dataset_name)
+        return self.get_ckan_metadata_by_id(id, language)
+
+class ZhGisCkanMetadata(CkanMetadata):
+    """ Provides access to the csw service of GIS-ZH metadata """
 
     default_mapping = {
         'id': XPathTextAttribute('.//gmd:fileIdentifier/gco:CharacterString'), 
         'name': XPathTextAttribute(".//gmd:identificationInfo//gmd:citation//gmd:title//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']"), 
-        'title': XPathTextAttribute(".//gmd:identificationInfo//gmd:citation//gmd:alternateTitle//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']"), 
-        'url': XPathTextAttribute(".//gmd:distributionInfo//gmd:transferOptions//gmd:onLine//gmd:linkage//che:URLGroup/che:LocalisedURL[@locale='#DE']"), 
+        'title': FirstInOrderAttribute([
+            XPathTextAttribute(".//gmd:identificationInfo//gmd:citation//gmd:alternateTitle//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']"),
+            XPathTextAttribute(".//gmd:identificationInfo//gmd:citation//gmd:title//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']")
+        ]),
+        'url': XPathTextAttribute(".//gmd:contact//gmd:onlineResource//gmd:linkage"), 
         'author': CombinedAttribute([
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact//che:individualFirstName/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact//che:individualLastName/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact//gmd:organisationName//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']")
-        ]),  
+            XPathTextAttribute(".//gmd:contact//gmd:organisationName//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']"),
+            CombinedAttribute([
+                XPathTextAttribute(".//gmd:contact//che:individualFirstName//gco:CharacterString"),
+                XPathTextAttribute(".//gmd:contact//che:individualLastName//gco:CharacterString"),
+            ]),
+        ], separator=', '),  
         'author_email': FirstInOrderAttribute([
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact[1]//gmd:CI_RoleCode[@codeListValue='author']/ancestor::gmd:pointOfContact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact[1]//gmd:CI_RoleCode[@codeListValue='originator']/ancestor::gmd:pointOfContact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact[1]//gmd:CI_RoleCode[@codeListValue='owner']/ancestor::gmd:pointOfContact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact[1]//gmd:CI_RoleCode[@codeListValue='pointOfContact']/ancestor::gmd:pointOfContact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
+            XPathTextAttribute(".//gmd:contact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
         ]), 
-        'maintainer': CombinedAttribute([
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact//che:individualFirstName/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact//che:individualLastName/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact//gmd:organisationName//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']")
-        ]),  
-        'maintainer_email': FirstInOrderAttribute([
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact[1]//gmd:CI_RoleCode[@codeListValue='publisher']/ancestor::gmd:pointOfContact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact[1]//gmd:CI_RoleCode[@codeListValue='custodian']/ancestor::gmd:pointOfContact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact[1]//gmd:CI_RoleCode[@codeListValue='distributor']/ancestor::gmd:pointOfContact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact[1]//gmd:CI_RoleCode[@codeListValue='pointOfContact']/ancestor::gmd:pointOfContact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact[1]//gmd:CI_RoleCode[@codeListValue='owner']/ancestor::gmd:pointOfContact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
-            XPathTextAttribute(".//gmd:identificationInfo//gmd:pointOfContact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
-        ]), 
-        'license_url': StringAttribute('http://www.toposhop.admin.ch/de/shop/terms/use/finished_products'),
+        'maintainer': StringAttribute(u'GIS-Zentrum Kanton Zürich'),
+        'maintainer_email': StringAttribute('gis@bd.zh.ch'),
+        'license_url': StringAttribute('http://www.are.zh.ch/internet/baudirektion/are/de/geoinformationen/gis-zh_gis-zentrum/geodaten.html'),
         'version': XPathTextAttribute(".//gmd:identificationInfo//gmd:citation//gmd:date/gco:Date"),
+        'service_url': XPathTextAttribute(".//gmd:identificationInfo//srv:connectPoint//gmd:linkage//che:LocalisedURL[@locale='#DE']"),
+        'service_type': XPathTextAttribute(".//gmd:identificationInfo//srv:serviceType//gco:LocalName"),
         'notes': XPathTextAttribute(".//gmd:identificationInfo//gmd:abstract//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']"),
-        'tags': ArrayAttribute([XPathMultiTextAttribute(".//gmd:identificationInfo//gmd:descriptiveKeywords//gmd:keyword//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']")]),
+        'tags': ArrayAttribute([StringAttribute('gis'), StringAttribute('geodaten')]),
         'metadata_url': StringAttribute(''),
         'metadata_raw': XmlAttribute(''),
     }
 
-    known_datasets = {
-        'swissboundaries3D': {
-                'id': '86cb844f-296b-40cb-b972-5b1ae8028f7c',
-                'mapping': default_mapping
-        }
-    }
-    
-
     def __init__(self, url='http://www.geocat.ch/geonetwork/srv/eng/csw?', schema='http://www.geocat.ch/2008/che', version='2.0.2', lang='en-US'):
-        super(SwisstopoCkanMetadata, self).__init__(url,schema,version,lang)
+        super(ZhGisCkanMetadata, self).__init__(url,schema,version,lang)
 
     def get_id_by_dataset_name(self, dataset_name):
-        if (dataset_name in self.known_datasets):
-            return self.known_datasets[dataset_name]['id']
-        return super(SwisstopoCkanMetadata, self).get_id_by_dataset_name(dataset_name)
+        return super(ZhGisCkanMetadata, self).get_id_by_dataset_name(dataset_name)
     
-    def get_mapping(self, dataset_name):
-        if dataset_name in self.known_datasets and 'mapping' in self.known_datasets[dataset_name]:
-            return self.known_datasets[dataset_name]['mapping'];
+    def get_mapping(self, dataset_name=None):
         return self.default_mapping
 
-    def get_attribute(self, dataset_name, ckan_attribute):
+    def get_attribute(self, ckan_attribute, dataset_name=None):
         mapping = self.get_mapping(dataset_name)
         if ckan_attribute in mapping:
             return mapping[ckan_attribute]
