@@ -16,7 +16,7 @@ from ckan.lib.helpers import json
 from ckan.lib.munge import munge_title_to_name
 
 from ckanext.harvest.model import HarvestJob, HarvestObject, HarvestGatherError, HarvestObjectError
-from base import OGDCHHarvesterBase
+from ckanext.harvest.harvesters import HarvesterBase
 
 from ckanext.zhgis.helpers import ckan_csw
 from ckanext.zhgis.helpers import s3
@@ -24,7 +24,7 @@ from ckanext.zhgis.helpers import s3
 import logging
 log = logging.getLogger(__name__)
 
-class ZhGisHarvester(OGDCHHarvesterBase):
+class ZhGisHarvester(HarvesterBase):
     '''
     The harvester for zhgis
     '''
@@ -261,7 +261,7 @@ class ZhGisHarvester(OGDCHHarvesterBase):
                 'permission': 'edit_group',
                 'id': munge_title_to_name(self.ORGANIZATION[u'de']['name']),
                 'name': munge_title_to_name(self.ORGANIZATION[u'de']['name']),
-                'title': self.ORGANIZATION[u'de']['name']
+                'title': self.ORGANIZATION[u'de']['name'],
                 'extras': [
                     {
                         'key': 'website',
