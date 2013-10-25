@@ -126,15 +126,15 @@ class ZhGisHarvester(HarvesterBase):
         },
         u'fr': {
             'name': u'Canton de Zurich',
-            'description': '',
+            'description': 'ZH Beschreibung FR',
         },
         u'it': {
             'name': u'Canton Zurigo',
-            'description': '',
+            'description': 'ZH Beschreibung IT',
         },
         u'en': {
             'name': u'Canton of Zurich',
-            'description': '',
+            'description': 'ZH Beschreibung EN',
         }
     }
 
