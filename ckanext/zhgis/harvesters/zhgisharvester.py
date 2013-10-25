@@ -262,6 +262,7 @@ class ZhGisHarvester(HarvesterBase):
                 'id': munge_title_to_name(self.ORGANIZATION[u'de']['name']),
                 'name': munge_title_to_name(self.ORGANIZATION[u'de']['name']),
                 'title': self.ORGANIZATION[u'de']['name'],
+                'description': self.ORGANIZATION[u'de']['description'],
                 'extras': [
                     {
                         'key': 'website',
