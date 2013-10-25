@@ -148,7 +148,6 @@ class CkanMetadata(object):
             'title', 
             'url', 
             'author', 
-            'author_email', 
             'maintainer', 
             'maintainer_email',
             'license_url',
@@ -218,16 +217,7 @@ class ZhGisCkanMetadata(CkanMetadata):
             XPathTextAttribute(".//gmd:identificationInfo//gmd:citation//gmd:title//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']")
         ]),
         'url': XPathTextAttribute(".//gmd:contact//gmd:onlineResource//gmd:linkage"), 
-        'author': CombinedAttribute([
-            XPathTextAttribute(".//gmd:contact//gmd:organisationName//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']"),
-            CombinedAttribute([
-                XPathTextAttribute(".//gmd:contact//che:individualFirstName//gco:CharacterString"),
-                XPathTextAttribute(".//gmd:contact//che:individualLastName//gco:CharacterString"),
-            ]),
-        ], separator=', '),  
-        'author_email': FirstInOrderAttribute([
-            XPathTextAttribute(".//gmd:contact//gmd:address//gmd:electronicMailAddress/gco:CharacterString"),
-        ]), 
+        'author': XPathTextAttribute(".//gmd:contact//gmd:organisationName//gmd:textGroup/gmd:LocalisedCharacterString[@locale='#DE']"),
         'maintainer': StringAttribute(u'GIS-Zentrum Kanton Zürich'),
         'maintainer_email': StringAttribute('gis@bd.zh.ch'),
         'license_url': StringAttribute('http://www.are.zh.ch/internet/baudirektion/are/de/geoinformationen/gis-zh_gis-zentrum/geodaten.html'),
