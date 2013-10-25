@@ -51,10 +51,6 @@ class ZhGisHarvester(HarvesterBase):
             'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=290',
             'tags': ['Waldvegetation', 'Wald']
         },
-        '38d5c3c9-ff3f-447a-b11d-aa80472246b6': {
-            'geolion_url': 'http://geolion.zh.ch/geodatenservice/show?nbid=850',
-            'tags': [u'Übersichtsplan']
-        },
         '690425da-b1bc-4f30-be01-c0a4af4f8d5f': {
             'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1057',
             'tags': ['Schadstoffbelastung', 'Emissionen', 'Immissionen']
