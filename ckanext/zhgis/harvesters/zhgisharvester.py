@@ -239,7 +239,7 @@ class ZhGisHarvester(HarvesterBase):
         group_name = self.GROUPS['de'][0]
         data_dict = {
             'id': group_name,
-            'name': self._gen_new_name(group_name),
+            'name': munge_title_to_name(group_name),
             'title': group_name
             }
         try:
