@@ -130,7 +130,7 @@ class ZhGisHarvester(HarvesterBase):
         },
         u'en': {
             'name': u'Canton of Zurich',
-            'description': u"As part of a pilot test, the Canton of Zurich publishes selected data of the Statistical Office and of the GIS-ZH (Geographic Information System of the Canton of Zurich).",
+            'description': u"As part of a pilot project, the Canton of Zurich publishes selected data of the Statistical Office and of the GIS-ZH (Geographic Information System of the Canton of Zurich).",
         }
     }
 
