@@ -1,4 +1,3 @@
-import logging
 import ckan.lib.cli
 import sys
 from pprint import pprint
@@ -12,20 +11,25 @@ class ZhGisCommand(ckan.lib.cli.CkanCommand):
 
     Usage:
 
+        # General usage
+        paster --plugin=ckanext-zhgis <command> -c <path to config file>
+
         # Show this help
-        paster --plugin=ckanext-zhgis zhgis help -c <path to config file>
+        paster zhgis help
 
         # Import datasets
-        paster --plugin=ckanext-zhgis zhgis import -c <path to config file>
+        paster zhgis import
 
         # List all files in the S3 bucket
-        paster --plugin=ckanext-zhgis zhgis list -c <path to config file>
+        paster zhgis list
 
-        # Show output from CSW, 'query' is typically the name of a dataset like 'swissboundaries3D'
-        paster --plugin=ckanext-zhgis zhgis csw <query> -c <path to config file>
+        # Show output from CSW, 'query' is typically
+        # the name of a dataset like 'swissboundaries3D'
+        paster zhgis csw <query>
 
-        # Show output from CSW, 'query' is must be the id of a dataset like '38d5c3c9-ff3f-447a-b11d-aa80472246b6'
-        paster --plugin=ckanext-zhgis zhgis cswid <query> -c <path to config file>
+        # Show output from CSW, 'query' is must be the id
+        # of a dataset like '38d5c3c9-ff3f-447a-b11d-aa80472246b6'
+        paster zhgis cswid <query>
 
     '''
     summary = __doc__.split('\n')[0]
@@ -35,11 +39,11 @@ class ZhGisCommand(ckan.lib.cli.CkanCommand):
         # load pylons config
         self._load_config()
         options = {
-                'import': self.importCmd,
-                'list': self.listCmd,
-                'csw': self.cswCmd,
-                'cswid': self.cswIdCmd,
-                'help': self.helpCmd,
+            'import': self.importCmd,
+            'list': self.listCmd,
+            'csw': self.cswCmd,
+            'cswid': self.cswIdCmd,
+            'help': self.helpCmd,
         }
 
         try:
@@ -53,7 +57,7 @@ class ZhGisCommand(ckan.lib.cli.CkanCommand):
         print self.__doc__
 
     def listCmd(self):
-        s3_helper = s3.S3();
+        s3_helper = s3.S3()
         for file in s3_helper.list():
             print file
 
@@ -62,7 +66,7 @@ class ZhGisCommand(ckan.lib.cli.CkanCommand):
             print "Argument 'query' must be set"
             self.helpCmd()
             sys.exit(1)
-        csw = ckan_csw.ZhGisCkanMetadata();
+        csw = ckan_csw.ZhGisCkanMetadata()
         metadata = csw.get_ckan_metadata(query, lang)
         del metadata['metadata_raw']
         pprint(metadata)
@@ -72,11 +76,10 @@ class ZhGisCommand(ckan.lib.cli.CkanCommand):
             print "Argument 'query' must be set"
             self.helpCmd()
             sys.exit(1)
-        csw = ckan_csw.ZhGisCkanMetadata();
+        csw = ckan_csw.ZhGisCkanMetadata()
         metadata = csw.get_ckan_metadata_by_id(query, lang)
         del metadata['metadata_raw']
         pprint(metadata)
-
 
     def importCmd(self):
         raise NotImplementedError
