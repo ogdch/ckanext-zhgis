@@ -1,6 +1,8 @@
 ckanext-zhgis
 =============
 
+[![Build Status](https://travis-ci.org/ogdch/ckanext-zhgis.png?branch=develop)](https://travis-ci.org/ogdch/ckanext-zhgis)
+
 Harvester for the Office for Spatial Development of the Canton of Zurich
 
 ## Installation
