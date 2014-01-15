@@ -107,6 +107,10 @@ class ZhGisHarvester(HarvesterBase):
             'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=933',
             'tags': []
         },
+        '1ba987a4-0236-44e2-b5c0-f6cc5f167981': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1120',
+            'tags': ['Strasse', 'Strassenverkehr', 'Verkehrsnetz', 'Strassennetz', 'Nationalstrassen', 'Staatsstrassen', 'Kanton Zürich']
+        },
     }
 
     LICENSE = {
