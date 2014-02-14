@@ -162,6 +162,59 @@ class ZhGisHarvester(HarvesterBase):
                 'Kanton Zürich'
             ]
         },
+        '79bffc8f-e721-47d1-9ebf-d8a47c4cf3d0': {
+                'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1077',  # noqa
+                'tags': [
+                    'Neophyten',
+                    'invasiv',
+                    'Asiatischer Staudenknöterich',
+                    'Riesenbärenklau',
+                    'Essigbaum',
+                    'Ambrosia',
+                    'Goldrute',
+                    'Drüsiges Springkraut'
+                ]
+        },
+        '893345ff-8c84-4495-9b2f-53c0ec8390f9': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1119',  # noqa
+            'tags': [
+                'Strasse',
+                'Strassenverkehr',
+                'Verkehrsnetz',
+                'Strassennetz',
+                'Nationalstrassen',
+                'Staatsstrassen',
+                'Kanton Zürich'
+            ]
+        },
+        '3233bf0f-c87d-404f-ac34-98df45d5dc90': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1118',  # noqa
+            'tags': [
+                'Strasse',
+                'Strassenverkehr',
+                'Verkehrsnetz',
+                'Strassennetz',
+                'Nationalstrassen',
+                'Staatsstrassen',
+                'Kanton Zürich'
+            ]
+        },
+        '86e20e7c-29fe-4840-8229-a540211d7bb5': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1117',  # noqa
+            'tags': [
+                'Strasse',
+                'Strassenverkehr',
+                'Verkehrsnetz',
+                'Strassennetz',
+                'Nationalstrassen',
+                'Staatsstrassen',
+                'Kanton Zürich'
+            ]
+        },
+        'a35fcf31-56f4-4b6d-b90a-54770a71bd8d': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1097',  # noqa
+            'tags': []
+        },
     }
 
     LICENSE = {
