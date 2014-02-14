@@ -1,6 +1,8 @@
 ckanext-zhgis
 =============
 
+[![Build Status](https://travis-ci.org/ogdch/ckanext-zhgis.png?branch=develop)](https://travis-ci.org/ogdch/ckanext-zhgis)
+
 Harvester for the Office for Spatial Development of the Canton of Zurich
 
 ## Installation
@@ -16,6 +18,10 @@ python setup.py develop
 ```
 
 Make sure to add `zhgis` and `zhgis_harvest` to `ckan.plugins` in your config file.
+
+### For development
+* install the `pre-commit.sh` script as a pre-commit hook in your local repositories:
+** `ln -s ../../pre-commit.sh .git/hooks/pre-commit`
 
 ## Run harvester
 
