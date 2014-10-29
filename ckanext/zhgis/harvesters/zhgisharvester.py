@@ -1,4 +1,4 @@
-#n -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from ckan import model
 from ckan.model import Session
@@ -211,9 +211,138 @@ class ZhGisHarvester(HarvesterBase):
                 'Kanton Zürich'
             ]
         },
-        'a35fcf31-56f4-4b6d-b90a-54770a71bd8d': {
+        'eda09949-0750-4eac-ba2b-6c78ca54d69e': {
             'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1097',  # noqa
             'tags': []
+        },
+        'a35fcf31-56f4-4b6d-b90a-54770a71bd8d': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1178',  # noqa
+            'tags': []
+        },
+        '9f1cfeee-c40e-4e5b-84ba-f6c19048bcad': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1217',  # noqa
+            'tags': [
+                'Tiefbau',
+                'Strassen',
+                'Verkehr',
+                'Baustellen',
+                'Verkehrsbehinderung'
+            ]
+        },
+        'e112d147-3b8e-42de-9b94-0ae23b05e3be': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1297',  # noqa
+            'tags': []
+        },
+        'fc314cc0-6916-42d6-96ca-18dd9394d02d': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1277',  # noqa
+            'tags': [
+                'Wasser',
+                'Fluss',
+                'Bach',
+                'Ökomorphologie',
+                'Gewässer',
+                'Verbauung',
+                'Uferbereich'
+            ]
+        },
+        '22b0d59f-363c-4643-929b-8a06cddf7f75': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1197',  # noqa
+            'tags': [
+                'Freianlagen',
+                'Sporthallen',
+                'Bäder',
+                'Eissportanlagen'
+            ]
+        },
+        '2999470f-b6c8-458f-b10d-a55d2d86abde': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1238',  # noqa
+            'tags': [
+                'Velo',
+                'Radweg',
+                'Veloinfrastruktur',
+                'Velomarkierung',
+                'Radstreifen',
+                'Busspur'
+            ]
+        },
+        '46cd5817-5ac4-4de9-909d-233bd319a6b9': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1237',  # noqa
+            'tags': [
+                'Velo',
+                'Parkierung',
+                'öffentlich',
+                'Veloparkieranlage',
+                'Anlagen'
+            ]
+        },
+        'b7ce6cfb-8ce0-41dc-8e24-0a0dff2d9aba': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1260',  # noqa
+            'tags': [
+                'Verkehr',
+                'Verkehrsmessstellen',
+                'Verkehrszählstellen',
+                'Verkehrsmodell'
+            ]
+        },
+        '9a4cc889-7907-454b-9d99-5b12c450e3ca': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1177',  # noqa
+            'tags': []
+        },
+        '7693752a-6294-4087-ae5e-83e8a0176315': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1258',  # noqa
+            'tags': [
+                'Tiefbau',
+                'Strassen',
+                'Verkehr',
+                'Baustellen',
+                'Verkehrsbehinderung'
+            ]
+        },
+        '8174aafe-3b3b-4e44-9a70-96bb6064018a': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1298',  # noqa
+            'tags': []
+        },
+        '6a4b6960-2c21-420c-b36d-d7dd3c184643': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1262',  # noqa
+            'tags': []
+        },
+        '2024fa34-6418-4de1-85f5-c619bda2c961': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1261',  # noqa
+            'tags': [
+                'Velo',
+                'Parkierung',
+                'öffentlich',
+                'Veloparkieranlage',
+                'Anlagen'
+            ]
+        },
+        '0db7eda5-2a95-4bbf-9b10-d1942bd85ca7': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1259',  # noqa
+            'tags': [
+                'Verkehr',
+                'Verkehrsmessstellen',
+                'Verkehrszählstellen',
+                'Verkehrsmodell'
+            ]
+        },
+        '4e27e579-88cf-4fb1-be90-869a9caeeac3': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1257',  # noqa
+            'tags': ['Wald']
+        },
+        '3479db7a-30e7-4505-b452-977852a187c9': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1320',  # noqa
+            'tags': [
+                'Schutzwald',
+                'gravitative Naturgefahren',
+                'Schadenpotential',
+                'Schutzfunktion'
+            ]
+        },
+        '5117c450-b502-42c1-823b-128bce2b1997': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1319',  # noqa
+            'tags': [
+                'WNB'
+            ]
         },
     }
 
