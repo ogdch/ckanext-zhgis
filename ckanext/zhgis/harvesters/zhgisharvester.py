@@ -344,6 +344,32 @@ class ZhGisHarvester(HarvesterBase):
                 'WNB'
             ]
         },
+        'f0370a86-3373-40e1-b540-0e147317e406': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1380',  # noqa
+            'tags': [
+                'Historische Karte'
+            ]
+        },
+        '25a540b6-d56e-456f-9299-c35d0080794c': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1379',  # noqa
+            'tags': [
+                'Terrainmodell',
+                'Oberflächenmodell',
+                'Höhenmodell'
+            ]
+        },
+        'd6c206e9-87b5-4150-96f0-482685c14e60': {
+            'geolion_url': 'http://www.geolion.zh.ch/geodatenservice/show?nbid=1321',  # noqa
+            'tags': [
+                'Vegetationskartierung',
+                'Feuchtgebiete',
+                'Trockenstandorte',
+                'TWW',
+                'Flachmoor',
+                'Hochmoor',
+                'Auen'
+            ]
+        },
     }
 
     LICENSE = {
