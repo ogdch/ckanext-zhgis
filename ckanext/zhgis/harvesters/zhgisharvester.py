@@ -374,10 +374,7 @@ class ZhGisHarvester(HarvesterBase):
 
     LICENSE = {
         'name': 'GIS-ZH Lizenz',
-        'url': (
-            'http://www.are.zh.ch/internet/baudirektion/are/de/'
-            'geoinformationen/gis-zh_gis-zentrum/geodaten.html'
-        ),
+        'url': 'http://www.are.zh.ch/internet/baudirektion/are/de/geoinformation/geodaten_uebersicht/Open_Data_Kanton_Zuerich.html#subtitle-content-internet-baudirektion-are-de-geoinformation-geodaten_uebersicht-Open_Data_Kanton_Zuerich-jcr-content-contentPar-textimage_1',  # noqa
     }
 
     ORGANIZATION = {
